@@ -1,0 +1,29 @@
+sudo yum update 
+
+sudo yum install -y nodejs npm 
+
+sudo yum install -y nginx
+
+sudo npm i pm2 -g
+
+cd /ect/nginx 
+
+ls
+
+sudo nano nginx.congig [to edit nginx root file and make changes accordingly]
+
+
+
+location /api {
+    rewrite ^\/api\/(.*)$ /api/$1 break;
+    proxy_pass http://localhost:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+
+sudo systemctl restart nginx 
+pm2 start server.js --name=backendAPI
+
+pm2 restart backendAPI
